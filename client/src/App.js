@@ -3,15 +3,14 @@ import './App.css';
 
 import Footer from './layout/Footer';
 import Header from './layout/Header';
+import ProductContainer from './layout/ProductContainer';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Header />
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ProductContainer/>
         <Footer />
       </div>
     );
