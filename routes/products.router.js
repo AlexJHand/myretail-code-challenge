@@ -80,5 +80,23 @@ router.get('/allproducts', function(req, res) {
     });
 })
 
+router.get('/updateprice', function(req, res) {
+    console.log('In updateprice');
+    let productId = req.query.id;
+    let newPrice = req.query.price;
+    let url = 'mongodb://localhost:27017/';
+    MongoClient.connect(url, function (err, db) {
+        if (err) throw err;
+        let dbo = db.db("myretail");
+        let myquery = {_id: productId};
+        var newvalues = {$set: {price: newPrice}};
+        dbo.collection("customers").updateOne(myquery, newvalues, function (err, res) {
+            if (err) throw err;
+            console.log("1 document updated");
+            db.close();
+        });
+    });
+})
+
 // Exports
 module.exports = router;

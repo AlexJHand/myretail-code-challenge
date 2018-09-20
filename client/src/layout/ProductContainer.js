@@ -10,12 +10,17 @@ export default class ProductContainer extends React.Component {
 
         this.state = {
             products: null,
-            selectedProduct: null
+            selectedProduct: null,
+            formDisplay: false,
+            updatedPrice: ""
         }
 
         this.buildProducts = this.buildProducts.bind(this);
         this.closeWindow = this.closeWindow.bind(this);
+        this.displayForm = this.displayForm.bind(this);
         this.getProductInfo = this.getProductInfo.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.setProducts = this.setProducts.bind(this);
         this.setSpecificProduct = this.setSpecificProduct.bind(this);
     }
@@ -39,7 +44,7 @@ export default class ProductContainer extends React.Component {
 
     closeWindow() {
         console.log('In closeWindow');
-        this.setState({selectedProduct: null})
+        this.setState({selectedProduct: null, formDisplay: false})
         console.log('this.state', this.state);
     }
 
@@ -48,6 +53,11 @@ export default class ProductContainer extends React.Component {
         axios(`/products/allproducts`)
             .then(products => this.setProducts(products))
             .catch(error => error);
+    }
+
+    displayForm() {
+        console.log('In displayForm');
+        this.setState({formDisplay: true});
     }
 
     getProductInfo(e) {
@@ -59,6 +69,18 @@ export default class ProductContainer extends React.Component {
         })
             .then(selectedProduct => this.setSpecificProduct(selectedProduct))
             .catch(error => console.log(error))
+    }
+
+    handleFormSubmit(e) {
+        console.log('In handleFormSubmit');
+        e.preventDefault();
+        console.log('New price', this.state.updatedPrice);
+        
+    }
+
+    handleInputChange(e) {
+        const value = e.target.value;
+        this.setState({ updatedPrice: {value}});
     }
 
     setSpecificProduct(selectedProduct) {
@@ -90,7 +112,12 @@ export default class ProductContainer extends React.Component {
                             name={this.state.selectedProduct.selectedProduct.data.name}
                             price={this.state.selectedProduct.selectedProduct.data.price}
                             url={this.state.selectedProduct.selectedProduct.data.url}
+                            formDisplay={this.state.formDisplay}
+                            updatedPrice={this.state.updatedPrice}
                             closeWindow={this.closeWindow}
+                            displayForm={this.displayForm}
+                            handleFormSubmit={this.handleFormSubmit}
+                            handleInputChange={this.handleInputChange}
                           />
 
                         :   <div></div>
