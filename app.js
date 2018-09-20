@@ -5,9 +5,6 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 require('dotenv').config();
 
-// Requiring the `Products` model for accessing the `products` collection
-const Products = require("./db_model/productsModel.js");
-
 // Require router
 const indexRouter =require('./routes/index.router');
 const productsRouter = require('./routes/products.router');

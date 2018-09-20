@@ -2,9 +2,7 @@
 const router = require('express').Router();
 const request = require('request');
 const bodyParser = require('body-parser');
-router.use(bodyParser.urlencoded({
-    extended: true
-}));
+router.use(bodyParser.urlencoded({extended: true}));
 router.use(bodyParser.json());
 const MongoClient = require('mongodb').MongoClient;
 
@@ -28,16 +26,11 @@ router.get('/', function(req, res) {
 
     request(url, function (error, response) {
         if (!error) {
-            // console.log("response", response.body);
             let prodObj = JSON.parse(response.body);
             returnObj.id = productId;
             returnObj.genre = prodObj.product.item.product_classification.item_type_name,
             returnObj.url = prodObj.product.item.buy_url
             
-            // console.log("prodObj", prodObj);
-            // console.log('Product*******', prodObj.product.item.product_description.bullet_description);
-            // console.log('Genre', prodObj.product.item.product_classification.item_type_name);
-            // console.log('Url', prodObj.product.item.buy_url);
             console.log("returnObj", returnObj);
             console.log('Type', typeof(productId));
             let mongoUrl = 'mongodb://localhost:27017/';
@@ -56,13 +49,10 @@ router.get('/', function(req, res) {
                     res.send(returnObj);
                 });
             });
-            // res.send(returnObj);
         } else {
             res.sendStatus(500);
         }
     })
-        
-    // res.send(returnObj);
 });
 
 router.get('/allproducts', function(req, res) {
@@ -84,6 +74,7 @@ router.get('/updateprice', function(req, res) {
     console.log('In updateprice');
     let productId = req.query.id;
     let newPrice = req.query.price;
+    console.log(productId + " " + newPrice);
     let url = 'mongodb://localhost:27017/';
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
@@ -96,6 +87,7 @@ router.get('/updateprice', function(req, res) {
             db.close();
         });
     });
+    res.sendStatus(200);
 })
 
 // Exports

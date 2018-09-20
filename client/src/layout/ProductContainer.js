@@ -12,6 +12,7 @@ export default class ProductContainer extends React.Component {
             products: null,
             selectedProduct: null,
             formDisplay: false,
+            updatedId: "",
             updatedPrice: ""
         }
 
@@ -75,7 +76,13 @@ export default class ProductContainer extends React.Component {
         console.log('In handleFormSubmit');
         e.preventDefault();
         console.log('New price', this.state.updatedPrice);
-        
+        axios(`/products/updateprice/`, {
+            params: {
+                id: this.state.updatedId,
+                price: this.state.updatedPrice
+            }
+        })
+            .catch(error => console.log(error))
     }
 
     handleInputChange(e) {
@@ -85,7 +92,7 @@ export default class ProductContainer extends React.Component {
 
     setSpecificProduct(selectedProduct) {
         console.log('In setSpecificProduct');
-        this.setState({ selectedProduct: { selectedProduct}})
+        this.setState({ selectedProduct: { selectedProduct } })
         console.log('this.state', this.state);
         
     }
