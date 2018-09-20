@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({extended: true}));
 router.use(bodyParser.json());
 const MongoClient = require('mongodb').MongoClient;
+// const mongoose = require('mongoose');
 
 
 // API Get
@@ -57,8 +58,9 @@ router.get('/', function(req, res) {
 
 router.get('/allproducts', function(req, res) {
     console.log('In allproducts');
-    let url = 'mongodb://localhost:27017/';
+    let url = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/';
     MongoClient.connect(url, function (err, db) {
+    // mongoose.connect(url, function (err, db) {
         if (err) throw err;
         let dbo = db.db("myretail");
         dbo.collection("products").find({}).toArray(function (err, result) {
@@ -75,8 +77,9 @@ router.get('/updateprice', function(req, res) {
     let productId = req.query.id;
     let newPrice = req.query.price;
     console.log(productId + " " + newPrice);
-    let url = 'mongodb://localhost:27017/';
+    let url = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/';
     MongoClient.connect(url, function (err, db) {
+    // mongoose.connect(url, function (err, db) {
         if (err) throw err;
         let dbo = db.db("myretail");
         let myquery = {_id: productId};
