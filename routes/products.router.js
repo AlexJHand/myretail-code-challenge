@@ -34,7 +34,7 @@ router.get('/', function(req, res) {
             
             console.log("returnObj", returnObj);
             console.log('Type', typeof(productId));
-            let mongoUrl = 'mongodb://localhost:27017/';
+            let mongoUrl = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/';
             MongoClient.connect(mongoUrl, function (err, db) {
                 if (err) throw err;
                 let dbo = db.db("myretail");

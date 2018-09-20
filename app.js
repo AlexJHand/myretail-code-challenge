@@ -13,7 +13,7 @@ const productsRouter = require('./routes/products.router');
 const port = process.env.PORT || 4600;
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/products");
+// mongoose.connect("mongodb://localhost/products");
 
 // Use body-parser for handling form submissions
 app.use(bodyParser.urlencoded({extended: true}));
